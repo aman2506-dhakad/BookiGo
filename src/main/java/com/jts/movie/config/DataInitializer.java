@@ -114,6 +114,8 @@ public class DataInitializer implements CommandLineRunner {
                     .releaseDate(Date.valueOf("2023-07-21"))
                     .genre(Genre.DRAMA)
                     .language(Language.ENGLISH)
+                    .genres(new ArrayList<>(List.of(Genre.DRAMA, Genre.HISTORICAL, Genre.WAR)))
+                    .languages(new ArrayList<>(List.of(Language.ENGLISH, Language.HINDI)))
                     .posterUrl("https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=800&q=80")
                     .shows(new ArrayList<>())
                     .build();
@@ -126,6 +128,8 @@ public class DataInitializer implements CommandLineRunner {
                     .releaseDate(Date.valueOf("2014-11-07"))
                     .genre(Genre.ACTION)
                     .language(Language.ENGLISH)
+                    .genres(new ArrayList<>(List.of(Genre.ACTION, Genre.SCI_FI, Genre.DRAMA)))
+                    .languages(new ArrayList<>(List.of(Language.ENGLISH, Language.HINDI, Language.TELUGU)))
                     .posterUrl("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80")
                     .shows(new ArrayList<>())
                     .build();
@@ -138,6 +142,8 @@ public class DataInitializer implements CommandLineRunner {
                     .releaseDate(Date.valueOf("2010-07-16"))
                     .genre(Genre.ACTION)
                     .language(Language.ENGLISH)
+                    .genres(new ArrayList<>(List.of(Genre.ACTION, Genre.THRILLER, Genre.SCI_FI)))
+                    .languages(new ArrayList<>(List.of(Language.ENGLISH, Language.HINDI)))
                     .posterUrl("https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80")
                     .shows(new ArrayList<>())
                     .build();
@@ -150,6 +156,8 @@ public class DataInitializer implements CommandLineRunner {
                     .releaseDate(Date.valueOf("2023-06-02"))
                     .genre(Genre.ANIMATION)
                     .language(Language.ENGLISH)
+                    .genres(new ArrayList<>(List.of(Genre.ANIMATION, Genre.ACTION, Genre.ADVENTURE)))
+                    .languages(new ArrayList<>(List.of(Language.ENGLISH, Language.HINDI, Language.TAMIL, Language.TELUGU)))
                     .posterUrl("https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=800&q=80")
                     .shows(new ArrayList<>())
                     .build();
@@ -162,10 +170,13 @@ public class DataInitializer implements CommandLineRunner {
                     .releaseDate(Date.valueOf("2024-03-01"))
                     .genre(Genre.ACTION)
                     .language(Language.ENGLISH)
+                    .genres(new ArrayList<>(List.of(Genre.ACTION, Genre.SCI_FI, Genre.ADVENTURE)))
+                    .languages(new ArrayList<>(List.of(Language.ENGLISH, Language.HINDI)))
                     .posterUrl("https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80")
                     .shows(new ArrayList<>())
                     .build();
             m5 = movieRepository.save(m5);
+
 
             // 3. Schedule Shows
             LocalDate today = LocalDate.now();

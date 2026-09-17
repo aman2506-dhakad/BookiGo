@@ -1,6 +1,8 @@
 package com.jts.movie.response;
 
 import java.sql.Date;
+import java.util.List;
+
 import com.jts.movie.enums.Genre;
 import com.jts.movie.enums.Language;
 import lombok.AllArgsConstructor;
@@ -20,5 +22,8 @@ public class MovieResponse {
     private Date releaseDate;
     private Genre genre;
     private Language language;
+    private List<Genre> genres;
+    private List<Language> languages;
     private String posterUrl;
 }
+

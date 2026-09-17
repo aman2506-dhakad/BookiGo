@@ -10,5 +10,10 @@ public enum Genre {
     ANIMATION,
     SPORTS,
     SOCIAL,
-    WAR
+    WAR,
+    SCI_FI,
+    HORROR,
+    ADVENTURE,
+    FANTASY,
+    CRIME
 }

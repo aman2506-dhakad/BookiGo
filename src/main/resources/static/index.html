@@ -481,35 +481,61 @@
               </div>
             </div>
 
-            <!-- ROW 2: CATEGORY & LANGUAGE -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-              <div class="form-group">
-                <label class="form-label">Category / Genre *</label>
-                <select id="adminGenre" class="form-control" required>
-                  <option value="ACTION">Action</option>
-                  <option value="DRAMA">Drama</option>
-                  <option value="THRILLER">Thriller</option>
-                  <option value="COMEDY">Comedy</option>
-                  <option value="ANIMATION">Animation</option>
-                  <option value="ROMANTIC">Romantic</option>
-                  <option value="HISTORICAL">Historical</option>
-                  <option value="SPORTS">Sports</option>
-                  <option value="SOCIAL">Social</option>
-                  <option value="WAR">War</option>
-                </select>
+            <!-- ROW 2: MULTI-GENRE & MULTI-LANGUAGE SELECTION -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1rem;">
+              <!-- MULTI-GENRE SELECTION -->
+              <div class="form-group" style="margin-bottom: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+                  <label class="form-label" style="margin-bottom: 0;">Genres / Categories * <span id="adminGenreSelectedCount" class="chip-count-badge">0 selected</span></label>
+                  <div class="chip-action-links">
+                    <button type="button" class="btn-chip-action" onclick="selectAllGenres()">Select All</button>
+                    <span style="opacity: 0.4; font-size: 0.75rem;">•</span>
+                    <button type="button" class="btn-chip-action" onclick="clearSelectedGenres()">Clear</button>
+                  </div>
+                </div>
+                <div class="chip-selector-grid" id="adminGenreChips">
+                  <div class="multi-chip" data-genre="ACTION" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Action</div>
+                  <div class="multi-chip" data-genre="DRAMA" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Drama</div>
+                  <div class="multi-chip" data-genre="THRILLER" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Thriller</div>
+                  <div class="multi-chip" data-genre="COMEDY" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Comedy</div>
+                  <div class="multi-chip" data-genre="SCI_FI" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Sci-Fi</div>
+                  <div class="multi-chip" data-genre="ANIMATION" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Animation</div>
+                  <div class="multi-chip" data-genre="ROMANTIC" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Romantic</div>
+                  <div class="multi-chip" data-genre="HORROR" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Horror</div>
+                  <div class="multi-chip" data-genre="ADVENTURE" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Adventure</div>
+                  <div class="multi-chip" data-genre="HISTORICAL" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Historical</div>
+                  <div class="multi-chip" data-genre="WAR" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>War</div>
+                  <div class="multi-chip" data-genre="FANTASY" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Fantasy</div>
+                  <div class="multi-chip" data-genre="CRIME" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Crime</div>
+                  <div class="multi-chip" data-genre="SPORTS" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Sports</div>
+                  <div class="multi-chip" data-genre="SOCIAL" onclick="toggleGenreChip(this)"><span class="chip-check">✓</span>Social</div>
+                </div>
+                <div id="genreValidationMsg" class="chip-error-msg" style="display: none;">Select at least 1 genre</div>
               </div>
 
-              <div class="form-group">
-                <label class="form-label">Language *</label>
-                <select id="adminLanguage" class="form-control" required>
-                  <option value="ENGLISH">English</option>
-                  <option value="HINDI">Hindi</option>
-                  <option value="TELUGU">Telugu</option>
-                  <option value="TAMIL">Tamil</option>
-                  <option value="MARATHI">Marathi</option>
-                  <option value="KANNADA">Kannada</option>
-                  <option value="PUNJAB">Punjabi</option>
-                </select>
+              <!-- MULTI-LANGUAGE SELECTION -->
+              <div class="form-group" style="margin-bottom: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+                  <label class="form-label" style="margin-bottom: 0;">Languages * <span id="adminLanguageSelectedCount" class="chip-count-badge">0 selected</span></label>
+                  <div class="chip-action-links">
+                    <button type="button" class="btn-chip-action" onclick="presetLanguages('pan-india')">🇮🇳 Pan-India</button>
+                    <span style="opacity: 0.4; font-size: 0.75rem;">•</span>
+                    <button type="button" class="btn-chip-action" onclick="clearSelectedLanguages()">Clear</button>
+                  </div>
+                </div>
+                <div class="chip-selector-grid" id="adminLanguageChips">
+                  <div class="multi-chip" data-lang="ENGLISH" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>English</div>
+                  <div class="multi-chip" data-lang="HINDI" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Hindi</div>
+                  <div class="multi-chip" data-lang="TELUGU" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Telugu</div>
+                  <div class="multi-chip" data-lang="TAMIL" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Tamil</div>
+                  <div class="multi-chip" data-lang="MARATHI" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Marathi</div>
+                  <div class="multi-chip" data-lang="KANNADA" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Kannada</div>
+                  <div class="multi-chip" data-lang="MALAYALAM" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Malayalam</div>
+                  <div class="multi-chip" data-lang="GUJARATI" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Gujarati</div>
+                  <div class="multi-chip" data-lang="PUNJAB" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Punjabi</div>
+                  <div class="multi-chip" data-lang="BENGALI" onclick="toggleLanguageChip(this)"><span class="chip-check">✓</span>Bengali</div>
+                </div>
+                <div id="langValidationMsg" class="chip-error-msg" style="display: none;">Select at least 1 language</div>
               </div>
             </div>
 

@@ -18,7 +18,7 @@ public class MovieService {
 	public String addMovie(MovieRequest movieRequest) {
 		Movie movieByName = movieRepository.findByMovieName(movieRequest.getMovieName());
 		
-		if (movieByName != null && movieByName.getLanguage().equals(movieRequest.getLanguage())) {
+		if (movieByName != null && movieByName.getLanguage() != null && movieByName.getLanguage().equals(movieRequest.getLanguage())) {
 			throw new MovieAlreadyExist();
 		}
 		
@@ -32,17 +32,28 @@ public class MovieService {
 	private com.jts.movie.repositories.ShowRepository showRepository;
 
 	public java.util.List<com.jts.movie.response.MovieResponse> getAllMovies() {
-		return movieRepository.findAll().stream().map(m -> com.jts.movie.response.MovieResponse.builder()
-				.id(m.getId())
-				.movieName(m.getMovieName())
-				.duration(m.getDuration())
-				.rating(m.getRating())
-				.releaseDate(m.getReleaseDate())
-				.genre(m.getGenre())
-				.language(m.getLanguage())
-				.posterUrl(m.getPosterUrl())
-				.build()
-		).collect(java.util.stream.Collectors.toList());
+		return movieRepository.findAll().stream().map(m -> {
+			java.util.List<com.jts.movie.enums.Genre> genreList = (m.getGenres() != null && !m.getGenres().isEmpty())
+					? new java.util.ArrayList<>(m.getGenres())
+					: (m.getGenre() != null ? java.util.List.of(m.getGenre()) : java.util.List.of());
+
+			java.util.List<com.jts.movie.enums.Language> langList = (m.getLanguages() != null && !m.getLanguages().isEmpty())
+					? new java.util.ArrayList<>(m.getLanguages())
+					: (m.getLanguage() != null ? java.util.List.of(m.getLanguage()) : java.util.List.of());
+
+			return com.jts.movie.response.MovieResponse.builder()
+					.id(m.getId())
+					.movieName(m.getMovieName())
+					.duration(m.getDuration())
+					.rating(m.getRating())
+					.releaseDate(m.getReleaseDate())
+					.genre(m.getGenre() != null ? m.getGenre() : (!genreList.isEmpty() ? genreList.get(0) : null))
+					.language(m.getLanguage() != null ? m.getLanguage() : (!langList.isEmpty() ? langList.get(0) : null))
+					.genres(genreList)
+					.languages(langList)
+					.posterUrl(m.getPosterUrl())
+					.build();
+		}).collect(java.util.stream.Collectors.toList());
 	}
 
 	@org.springframework.transaction.annotation.Transactional

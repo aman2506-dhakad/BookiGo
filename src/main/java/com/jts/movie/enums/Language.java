@@ -7,5 +7,8 @@ public enum Language {
     TAMIL,
     MARATHI,
     PUNJAB,
-    KANNADA
+    KANNADA,
+    MALAYALAM,
+    GUJARATI,
+    BENGALI
 }

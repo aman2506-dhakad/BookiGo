@@ -270,8 +270,31 @@ function prevHeroSlide() {
   goToHeroSlide(prevIdx, true);
 }
 
+function formatGenre(g) {
+  if (!g) return '';
+  return g.replace(/_/g, '-').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('-');
+}
+
+function formatLang(l) {
+  if (!l) return '';
+  const map = {
+    ENGLISH: 'ENG',
+    HINDI: 'HIN',
+    TELUGU: 'TEL',
+    TAMIL: 'TAM',
+    MARATHI: 'MAR',
+    KANNADA: 'KAN',
+    MALAYALAM: 'MAL',
+    GUJARATI: 'GUJ',
+    PUNJAB: 'PUN',
+    BENGALI: 'BEN'
+  };
+  return map[l.toUpperCase()] || (l.charAt(0).toUpperCase() + l.slice(1).toLowerCase());
+}
+
 function goToHeroSlide(index, restartTimer = false) {
   if (!state.movies || state.movies.length === 0) return;
+
   state.heroIndex = index;
   const movie = state.movies[index];
 
@@ -310,8 +333,13 @@ function goToHeroSlide(index, restartTimer = false) {
 
   // Update textual details
   if (heroTitle) heroTitle.textContent = movie.movieName;
-  if (heroRating) heroRating.innerHTML = `★ ${movie.rating || '8.5'}`;
-  if (heroMetaText) heroMetaText.textContent = `${movie.language} • ${movie.genre} • ${movie.duration} min • Released: ${movie.releaseDate}`;
+  const heroGenres = (movie.genres && movie.genres.length > 0) 
+    ? movie.genres.map(formatGenre).join(' • ') 
+    : (formatGenre(movie.genre) || 'Cinema');
+  const heroLangs = (movie.languages && movie.languages.length > 0) 
+    ? movie.languages.map(formatLang).join(' • ') 
+    : (formatLang(movie.language) || 'English');
+  if (heroMetaText) heroMetaText.textContent = `${heroLangs} • ${heroGenres} • ${movie.duration} min • Released: ${movie.releaseDate}`;
   
   const desc = MOVIE_DESCRIPTIONS[movie.movieName] || 
     `Experience the cinematic spectacle of "${movie.movieName}" in crystal-clear IMAX projection with Dolby Atmos sound. Book your tickets now for the best seats.`;
@@ -408,18 +436,24 @@ function renderMovieGrid(movies) {
   }
 
   movies.forEach(movie => {
+    const genreList = (movie.genres && movie.genres.length > 0) ? movie.genres : (movie.genre ? [movie.genre] : ['Cinema']);
+    const genreTags = genreList.map(g => `<span class="tag">${formatGenre(g)}</span>`).join('');
+
+    const langList = (movie.languages && movie.languages.length > 0) ? movie.languages : (movie.language ? [movie.language] : ['English']);
+    const langDisplay = langList.map(l => formatLang(l)).join(' • ');
+
     const card = document.createElement('div');
     card.className = 'movie-card';
     card.innerHTML = `
       <div class="card-poster">
         <img src="${getPoster(movie)}" alt="${movie.movieName}" loading="lazy" onerror="this.src='${POSTERS.default}'" />
         <div class="card-rating-badge">★ ${movie.rating || '8.5'}</div>
-        <div class="card-lang-badge">${movie.language}</div>
+        <div class="card-lang-badge">${langDisplay}</div>
       </div>
       <div class="card-content">
         <h3 class="card-title" title="${movie.movieName}">${movie.movieName}</h3>
         <div class="card-tags">
-          <span class="tag">${movie.genre}</span>
+          ${genreTags}
           <span class="tag">${movie.duration}m</span>
         </div>
         <div class="card-footer">
@@ -437,16 +471,21 @@ function applyFilters() {
   let list = [...state.movies];
 
   if (state.selectedCategory !== 'ALL') {
-    list = list.filter(m => m.genre === state.selectedCategory);
+    list = list.filter(m => {
+      if (m.genres && m.genres.length > 0) {
+        return m.genres.includes(state.selectedCategory) || m.genre === state.selectedCategory;
+      }
+      return m.genre === state.selectedCategory;
+    });
   }
 
   if (state.searchQuery.trim() !== '') {
     const q = state.searchQuery.toLowerCase();
-    list = list.filter(m => 
-      m.movieName.toLowerCase().includes(q) || 
-      m.genre.toLowerCase().includes(q) ||
-      m.language.toLowerCase().includes(q)
-    );
+    list = list.filter(m => {
+      const gStr = (m.genres && m.genres.length > 0) ? m.genres.join(' ').toLowerCase() : (m.genre || '').toLowerCase();
+      const lStr = (m.languages && m.languages.length > 0) ? m.languages.join(' ').toLowerCase() : (m.language || '').toLowerCase();
+      return m.movieName.toLowerCase().includes(q) || gStr.includes(q) || lStr.includes(q);
+    });
   }
 
   state.filteredMovies = list;
@@ -1395,6 +1434,87 @@ const POSTER_PRESETS = {
 
 let cachedTheaters = [];
 
+// Multi-Select Chip Functions for Add Movie
+function toggleGenreChip(el) {
+  el.classList.toggle('active');
+  const genreErrorEl = document.getElementById('genreValidationMsg');
+  if (genreErrorEl) genreErrorEl.style.display = 'none';
+  updateChipCounts();
+}
+
+function selectAllGenres() {
+  document.querySelectorAll('#adminGenreChips .multi-chip').forEach(c => c.classList.add('active'));
+  const genreErrorEl = document.getElementById('genreValidationMsg');
+  if (genreErrorEl) genreErrorEl.style.display = 'none';
+  updateChipCounts();
+}
+
+function clearSelectedGenres() {
+  document.querySelectorAll('#adminGenreChips .multi-chip').forEach(c => c.classList.remove('active'));
+  updateChipCounts();
+}
+
+function toggleLanguageChip(el) {
+  el.classList.toggle('active');
+  const langErrorEl = document.getElementById('langValidationMsg');
+  if (langErrorEl) langErrorEl.style.display = 'none';
+  updateChipCounts();
+}
+
+function presetLanguages(type) {
+  if (type === 'pan-india') {
+    const panLangs = ['HINDI', 'TELUGU', 'TAMIL', 'KANNADA', 'MALAYALAM'];
+    document.querySelectorAll('#adminLanguageChips .multi-chip').forEach(c => {
+      if (panLangs.includes(c.dataset.lang)) {
+        c.classList.add('active');
+      }
+    });
+  }
+  const langErrorEl = document.getElementById('langValidationMsg');
+  if (langErrorEl) langErrorEl.style.display = 'none';
+  updateChipCounts();
+}
+
+function clearSelectedLanguages() {
+  document.querySelectorAll('#adminLanguageChips .multi-chip').forEach(c => c.classList.remove('active'));
+  updateChipCounts();
+}
+
+function updateChipCounts() {
+  const genreCount = document.querySelectorAll('#adminGenreChips .multi-chip.active').length;
+  const langCount = document.querySelectorAll('#adminLanguageChips .multi-chip.active').length;
+
+  const gBadge = document.getElementById('adminGenreSelectedCount');
+  if (gBadge) {
+    gBadge.textContent = `${genreCount} selected`;
+    gBadge.classList.toggle('has-selected', genreCount > 0);
+  }
+
+  const lBadge = document.getElementById('adminLanguageSelectedCount');
+  if (lBadge) {
+    lBadge.textContent = `${langCount} selected`;
+    lBadge.classList.toggle('has-selected', langCount > 0);
+  }
+}
+
+function resetAdminMovieChips() {
+  document.querySelectorAll('#adminGenreChips .multi-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#adminLanguageChips .multi-chip').forEach(c => c.classList.remove('active'));
+  
+  // Set clean default selections: Action + Sci-Fi, English + Hindi
+  const defG1 = document.querySelector('#adminGenreChips .multi-chip[data-genre="ACTION"]');
+  const defG2 = document.querySelector('#adminGenreChips .multi-chip[data-genre="SCI_FI"]');
+  if (defG1) defG1.classList.add('active');
+  if (defG2) defG2.classList.add('active');
+
+  const defL1 = document.querySelector('#adminLanguageChips .multi-chip[data-lang="ENGLISH"]');
+  const defL2 = document.querySelector('#adminLanguageChips .multi-chip[data-lang="HINDI"]');
+  if (defL1) defL1.classList.add('active');
+  if (defL2) defL2.classList.add('active');
+
+  updateChipCounts();
+}
+
 // Open Admin Modal with strict access verification
 async function openAdminModal() {
   if (!isAdmin()) {
@@ -1411,11 +1531,20 @@ async function openAdminModal() {
   const schedDateInput = document.getElementById('adminSchedDate');
   if (schedDateInput && !schedDateInput.value) schedDateInput.value = todayStr;
 
+  const activeGenres = document.querySelectorAll('#adminGenreChips .multi-chip.active');
+  const activeLangs = document.querySelectorAll('#adminLanguageChips .multi-chip.active');
+  if (activeGenres.length === 0 || activeLangs.length === 0) {
+    resetAdminMovieChips();
+  } else {
+    updateChipCounts();
+  }
+
   switchAdminTab('add');
   await populateAdminTheaters();
   renderAdminMovieCatalog();
   openModal('adminModal');
 }
+
 
 // Switch tabs inside Admin Modal
 function switchAdminTab(tab) {
@@ -1514,11 +1643,38 @@ async function handleAdminAddMovie(e) {
   btn.textContent = 'Processing...';
 
   const movieName = document.getElementById('adminMovieName').value.trim();
-  const genre = document.getElementById('adminGenre').value;
-  const language = document.getElementById('adminLanguage').value;
   const duration = parseInt(document.getElementById('adminDuration').value, 10);
   const rating = parseFloat(document.getElementById('adminRating').value);
   const releaseDate = document.getElementById('adminReleaseDate').value;
+
+  // Collect Multi-Selected Genres and Languages
+  const selectedGenres = Array.from(document.querySelectorAll('#adminGenreChips .multi-chip.active')).map(c => c.dataset.genre);
+  const selectedLanguages = Array.from(document.querySelectorAll('#adminLanguageChips .multi-chip.active')).map(c => c.dataset.lang);
+
+  let isValid = true;
+  const genreErrorEl = document.getElementById('genreValidationMsg');
+  const langErrorEl = document.getElementById('langValidationMsg');
+
+  if (selectedGenres.length === 0) {
+    if (genreErrorEl) genreErrorEl.style.display = 'block';
+    isValid = false;
+  } else {
+    if (genreErrorEl) genreErrorEl.style.display = 'none';
+  }
+
+  if (selectedLanguages.length === 0) {
+    if (langErrorEl) langErrorEl.style.display = 'block';
+    isValid = false;
+  } else {
+    if (langErrorEl) langErrorEl.style.display = 'none';
+  }
+
+  if (!isValid) {
+    btn.disabled = false;
+    btn.textContent = '🚀 Publish Movie to Catalog';
+    showToast('Please select at least 1 genre and 1 language', 'warning');
+    return;
+  }
 
   try {
     let posterUrl = null;
@@ -1534,8 +1690,10 @@ async function handleAdminAddMovie(e) {
     const moviePayload = {
       movieName,
       posterUrl,
-      genre,
-      language,
+      genre: selectedGenres[0],
+      language: selectedLanguages[0],
+      genres: selectedGenres,
+      languages: selectedLanguages,
       duration,
       rating,
       releaseDate
@@ -1565,9 +1723,10 @@ async function handleAdminAddMovie(e) {
 
     showToast(`🎉 "${movieName}" successfully added to the catalog!`, 'success');
 
-    // Reset form and local image selection
+    // Reset form, local image selection, and multi-select chips
     document.getElementById('adminMovieForm').reset();
     removeSelectedPoster();
+    resetAdminMovieChips();
     document.getElementById('adminShowFields').style.display = 'none';
 
     // Refresh catalog
@@ -1609,7 +1768,11 @@ function populateAdminScheduleDropdowns() {
   populateAdminTheaters();
   const movieSelect = document.getElementById('adminSchedMovie');
   if (movieSelect) {
-    movieSelect.innerHTML = state.movies.map(m => `<option value="${m.id}">${m.movieName} (${m.language} - ${m.genre})</option>`).join('');
+    movieSelect.innerHTML = state.movies.map(m => {
+      const gStr = (m.genres && m.genres.length > 0) ? m.genres.map(formatGenre).join('/') : (m.genre ? formatGenre(m.genre) : '');
+      const lStr = (m.languages && m.languages.length > 0) ? m.languages.map(formatLang).join('/') : (m.language ? formatLang(m.language) : '');
+      return `<option value="${m.id}">${m.movieName} (${lStr} • ${gStr})</option>`;
+    }).join('');
   }
 }
 
@@ -1661,13 +1824,16 @@ function renderAdminMovieCatalog() {
     return;
   }
 
-  listEl.innerHTML = state.movies.map(m => `
+  listEl.innerHTML = state.movies.map(m => {
+    const catGenres = (m.genres && m.genres.length > 0) ? m.genres.map(formatGenre).join(' • ') : (m.genre ? formatGenre(m.genre) : '');
+    const catLangs = (m.languages && m.languages.length > 0) ? m.languages.map(formatLang).join(' • ') : (m.language ? formatLang(m.language) : '');
+    return `
     <div class="admin-movie-item">
       <img src="${getPoster(m)}" alt="${m.movieName}" class="admin-movie-thumb" onerror="this.src='${POSTERS.default}'" />
       <div style="flex: 1; min-width: 0;">
         <div style="font-weight: 700; font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.movieName}</div>
         <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">
-          ${m.language} • ${m.genre} • ${m.duration} min • Released: ${m.releaseDate}
+          ${catLangs} • ${catGenres} • ${m.duration} min • Released: ${m.releaseDate}
         </div>
         <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
           <span class="tag" style="background: rgba(234, 179, 8, 0.15); color: #eab308; font-size: 0.75rem;">★ ${m.rating || '8.5'}</span>
@@ -1683,7 +1849,7 @@ function renderAdminMovieCatalog() {
         </button>
       </div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 // Handle Admin Delete Movie
