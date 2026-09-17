@@ -3,78 +3,276 @@ const API_BASE = window.BOOKIGO_API_URL || '';
 
 // Fallback Rich Catalog for Vercel / Cloud Demo Previews
 const DEMO_MOVIES = [
-  {
-    id: 1,
-    movieName: "Oppenheimer",
-    duration: 180,
-    rating: 8.9,
-    releaseDate: "2023-07-21",
-    genre: "DRAMA",
-    language: "ENGLISH",
-    genres: ["DRAMA", "HISTORICAL", "WAR"],
-    languages: ["ENGLISH", "HINDI"],
-    posterUrl: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 2,
-    movieName: "Interstellar",
-    duration: 169,
-    rating: 8.7,
-    releaseDate: "2014-11-07",
-    genre: "ACTION",
-    language: "ENGLISH",
-    genres: ["ACTION", "SCI_FI", "DRAMA"],
-    languages: ["ENGLISH", "HINDI", "TELUGU"],
-    posterUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 3,
-    movieName: "Inception",
-    duration: 148,
-    rating: 8.8,
-    releaseDate: "2010-07-16",
-    genre: "ACTION",
-    language: "ENGLISH",
-    genres: ["ACTION", "THRILLER", "SCI_FI"],
-    languages: ["ENGLISH", "HINDI"],
-    posterUrl: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 4,
-    movieName: "Kalki 2898 AD",
-    duration: 180,
-    rating: 8.8,
-    releaseDate: "2024-06-27",
-    genre: "ACTION",
-    language: "HINDI",
-    genres: ["ACTION", "THRILLER", "SCI_FI"],
-    languages: ["HINDI", "TELUGU", "ENGLISH"],
-    posterUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 5,
-    movieName: "Spider-Man: Across the Spider-Verse",
-    duration: 140,
-    rating: 8.7,
-    releaseDate: "2023-06-02",
-    genre: "ANIMATION",
-    language: "ENGLISH",
-    genres: ["ANIMATION", "ACTION", "ADVENTURE"],
-    languages: ["ENGLISH", "HINDI", "TAMIL", "TELUGU"],
-    posterUrl: "https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 6,
-    movieName: "Dune: Part Two",
-    duration: 166,
-    rating: 8.6,
-    releaseDate: "2024-03-01",
-    genre: "ACTION",
-    language: "ENGLISH",
-    genres: ["ACTION", "SCI_FI", "ADVENTURE"],
-    languages: ["ENGLISH", "HINDI"],
-    posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80"
-  }
+    {
+        "id":  12,
+        "movieName":  "The Paradise",
+        "duration":  169,
+        "rating":  9.0,
+        "releaseDate":  "2026-09-24",
+        "genre":  "ACTION",
+        "language":  "ENGLISH",
+        "genres":  [
+                       "ACTION",
+                       "DRAMA",
+                       "ADVENTURE"
+                   ],
+        "languages":  [
+                          "ENGLISH",
+                          "HINDI",
+                          "TELUGU",
+                          "TAMIL",
+                          "KANNADA",
+                          "MALAYALAM",
+                          "BENGALI"
+                      ],
+        "posterUrl":  "/uploads/01c34d8e-4d25-406b-b308-e7e05dbe52e0.avif"
+    },
+    {
+        "id":  13,
+        "movieName":  "Hanuman Ansh",
+        "duration":  150,
+        "rating":  9.7,
+        "releaseDate":  "2026-08-07",
+        "genre":  "DRAMA",
+        "language":  "HINDI",
+        "genres":  [
+                       "DRAMA",
+                       "HISTORICAL"
+                   ],
+        "languages":  [
+                          "HINDI"
+                      ],
+        "posterUrl":  "/uploads/5f13e521-b43c-4f2d-9e0b-82cb300c8722.jpg"
+    },
+    {
+        "id":  14,
+        "movieName":  "The Vvaan - Force of the Forrest",
+        "duration":  165,
+        "rating":  8.5,
+        "releaseDate":  "2026-09-25",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "THRILLER",
+                       "ADVENTURE",
+                       "HISTORICAL",
+                       "FANTASY"
+                   ],
+        "languages":  [
+                          "HINDI"
+                      ],
+        "posterUrl":  "/uploads/bbdbf193-4866-4d66-bd3f-a5168dac35d6.avif"
+    },
+    {
+        "id":  15,
+        "movieName":  "Drishyam: The Conclusion",
+        "duration":  160,
+        "rating":  8.3,
+        "releaseDate":  "2026-10-02",
+        "genre":  "DRAMA",
+        "language":  "HINDI",
+        "genres":  [
+                       "DRAMA",
+                       "THRILLER"
+                   ],
+        "languages":  [
+                          "HINDI"
+                      ],
+        "posterUrl":  "/uploads/2a72e418-1048-4ca7-9a3b-9416fca7326c.avif"
+    },
+    {
+        "id":  16,
+        "movieName":  "Rajini: The Jailer 2",
+        "duration":  168,
+        "rating":  9.3,
+        "releaseDate":  "2026-10-15",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "THRILLER"
+                   ],
+        "languages":  [
+                          "HINDI",
+                          "TELUGU",
+                          "TAMIL"
+                      ],
+        "posterUrl":  "/uploads/b04f0890-6007-4c5f-9c99-999b9afb1e0a.avif"
+    },
+    {
+        "id":  17,
+        "movieName":  "OM Chapter 1: Udhiram",
+        "duration":  165,
+        "rating":  8.5,
+        "releaseDate":  "2026-10-16",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "THRILLER"
+                   ],
+        "languages":  [
+                          "HINDI",
+                          "TELUGU",
+                          "TAMIL"
+                      ],
+        "posterUrl":  "/uploads/e3fb078e-473f-4535-a7fe-4dbfb246501d.avif"
+    },
+    {
+        "id":  18,
+        "movieName":  "Spirit",
+        "duration":  180,
+        "rating":  9.3,
+        "releaseDate":  "2027-03-05",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "THRILLER"
+                   ],
+        "languages":  [
+                          "HINDI",
+                          "TELUGU"
+                      ],
+        "posterUrl":  "/uploads/aa639b2b-ba64-4575-a8be-117415f4698c.avif"
+    },
+    {
+        "id":  19,
+        "movieName":  "Ramayana",
+        "duration":  180,
+        "rating":  9.4,
+        "releaseDate":  "2026-11-06",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "DRAMA",
+                       "ADVENTURE",
+                       "HISTORICAL"
+                   ],
+        "languages":  [
+                          "HINDI"
+                      ],
+        "posterUrl":  "/uploads/444cc089-9e76-48d3-8476-dad8e7ef7489.avif"
+    },
+    {
+        "id":  20,
+        "movieName":  "King",
+        "duration":  180,
+        "rating":  8.2,
+        "releaseDate":  "2026-12-24",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "THRILLER"
+                   ],
+        "languages":  [
+                          "HINDI"
+                      ],
+        "posterUrl":  "/uploads/e37080a5-e375-4c8b-8419-1518f7eb219e.avif"
+    },
+    {
+        "id":  21,
+        "movieName":  "Avengers: Doomsday",
+        "duration":  165,
+        "rating":  9.0,
+        "releaseDate":  "2026-12-18",
+        "genre":  "ACTION",
+        "language":  "ENGLISH",
+        "genres":  [
+                       "ACTION",
+                       "SCI_FI",
+                       "ADVENTURE",
+                       "FANTASY"
+                   ],
+        "languages":  [
+                          "ENGLISH",
+                          "HINDI",
+                          "TELUGU",
+                          "TAMIL"
+                      ],
+        "posterUrl":  "/uploads/3c6bde0b-eaa9-4640-9ded-b59b24509909.avif"
+    },
+    {
+        "id":  22,
+        "movieName":  "Haiwaan",
+        "duration":  164,
+        "rating":  5.9,
+        "releaseDate":  "2026-09-11",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "THRILLER",
+                       "CRIME"
+                   ],
+        "languages":  [
+                          "HINDI"
+                      ],
+        "posterUrl":  "/uploads/1596a98a-4fb2-4caf-ad4a-3567e22faf91.avif"
+    },
+    {
+        "id":  23,
+        "movieName":  "Mirzapur: The Movie",
+        "duration":  197,
+        "rating":  9.1,
+        "releaseDate":  "2026-09-04",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "THRILLER",
+                       "CRIME"
+                   ],
+        "languages":  [
+                          "HINDI",
+                          "TELUGU"
+                      ],
+        "posterUrl":  "/uploads/1be741df-c40e-46bc-a04d-1938fffcaf5a.avif"
+    },
+    {
+        "id":  24,
+        "movieName":  "Toxic: A Fairy Tale for Grown-ups",
+        "duration":  194,
+        "rating":  5.0,
+        "releaseDate":  "2026-08-26",
+        "genre":  "ACTION",
+        "language":  "ENGLISH",
+        "genres":  [
+                       "ACTION",
+                       "THRILLER",
+                       "CRIME"
+                   ],
+        "languages":  [
+                          "ENGLISH",
+                          "HINDI",
+                          "TELUGU",
+                          "TAMIL",
+                          "KANNADA",
+                          "MALAYALAM"
+                      ],
+        "posterUrl":  "/uploads/c1f7d9d2-ceac-4a5e-a841-229c54e9da04.avif"
+    },
+    {
+        "id":  25,
+        "movieName":  "Awarapan 2",
+        "duration":  140,
+        "rating":  7.9,
+        "releaseDate":  "2026-08-14",
+        "genre":  "ACTION",
+        "language":  "HINDI",
+        "genres":  [
+                       "ACTION",
+                       "ROMANTIC",
+                       "CRIME"
+                   ],
+        "languages":  [
+                          "HINDI"
+                      ],
+        "posterUrl":  "/uploads/c525f238-ad13-481e-b6e0-4618b9738106.avif"
+    }
 ];
 
 function generateDemoShows(movieId) {
@@ -408,16 +606,21 @@ let state = {
 };
 
 const MOVIE_DESCRIPTIONS = {
-  "Oppenheimer": "Experience Christopher Nolan's epic biographical thriller in breathtaking IMAX. The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
-  "Interstellar": "When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot is tasked with piloting a spacecraft along with a team of researchers to find a new planet for humanity.",
-  "Inception": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-  "Spider-Man: Across the Spider-Verse": "Miles Morales catapults across the Multiverse, where he encounters a team of Spider-People charged with protecting its very existence.",
-  "Dune: Part Two": "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family in this sci-fi masterpiece.",
-  "Deadpool & Wolverine": "Marvel Studios presents their most explosive team-up yet. Wade Wilson and Wolverine must join forces to protect the multiverse in a wildly comedic spectacle.",
-  "Gladiator II": "Years after witnessing the death of the revered hero Maximus at the hands of his uncle, Lucius enters the Colosseum to reclaim the honor and freedom of Rome.",
+  "The Paradise": "An explosive high-octane cinematic journey across worlds of danger, devotion, and retribution.",
   "Hanuman Ansh": "An epic cinematic saga of divine valor, devotion, and mythical power. Witness awe-inspiring action and legendary heroism on the giant cinema screen with Dolby Atmos sound.",
-  "Hanuman Ansh-1": "The mythic chronicle begins. Step into an extraordinary journey of ancient legends, heroic destinies, and awe-inspiring action brought to life on the big screen."
-};
+  "The Vvaan - Force of the Forrest": "Deep within the primeval wilderness lies an ancient mystery. An exhilarating expedition fraught with primal danger and mythical encounters.",
+  "Drishyam: The Conclusion": "The gripping ultimate chapter of intellect, suspense, and sacrifice. How far will a father go to protect the ones he loves?",
+  "Rajini: The Jailer 2": "The superstar returns in an adrenaline-pumping sequel filled with unmatched charisma, roaring action, and grand cinematic glory.",
+  "OM Chapter 1: Udhiram": "A dark, atmospheric action saga of unyielding vengeance, grit, and fierce redemption against impossible odds.",
+  "Spirit": "A hard-hitting cop thriller loaded with intense emotion, raw power, and high-velocity confrontation.",
+  "Ramayana": "The immortal epic reborn in cinematic grandiosity. A timeless saga of honor, truth, and monumental battles on the giant screen.",
+  "King": "Experience the cinematic spectacle of \"King\" in crystal-clear IMAX projection with Dolby Atmos sound. Book your tickets now for the best seats.",
+  "Avengers: Doomsday": "Earth's mightiest heroes face their greatest cosmic reckoning yet as the fate of the multiverse hangs in the balance.",
+  "Haiwaan": "A ferocious crime thriller exploring the darkest corridors of revenge, instinct, and raw survival.",
+  "Mirzapur: The Movie": "The iconic battle for the throne explodes onto the big screen with raw power, relentless tension, and gritty cinematic swagger.",
+  "Toxic: A Fairy Tale for Grown-ups": "A hypnotic and stylish noir tale blending romance, peril, and relentless underground thrills.",
+  "Awarapan 2": "A soul-stirring tale of passion, remorse, and redemption framed by arresting drama and haunting melodies."
+};;
 
 const MOVIE_BADGES = [
   "🔥 SPOTLIGHT PREMIERE",
