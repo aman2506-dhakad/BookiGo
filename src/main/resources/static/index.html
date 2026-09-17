@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookigo — Premium Movie Ticket Booking</title>
+  <meta name="description" content="Book tickets for the latest blockbusters in IMAX, Dolby Atmos, and 4DX with live interactive seat selection on Bookigo." />
+  <link rel="icon" type="image/png" href="/images/bookigo-logo.png" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- Google Fonts Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand" title="Bookigo Home">
+        <img src="/images/bookigo-logo.png" alt="Bookigo Logo" class="brand-logo-img" />
+        <span class="brand-name">BOOKI<span class="brand-highlight">GO</span></span>
+      </a>
+
+      <div class="nav-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="movieSearchInput" placeholder="Search movies, genres, languages..." />
+        <span class="search-shortcut" title="Press / to search">/</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a class="nav-link active" href="#moviesSection">Now Showing</a></li>
+        <li><a class="nav-link" href="#experienceSection">Experiences</a></li>
+        <li><a class="nav-link" onclick="openMyBookings()">My Bookings</a></li>
+      </ul>
+
+      <div id="navAuthContainer" style="display: flex; gap: 0.6rem; align-items: center;">
+        <!-- Injected dynamically by app.js -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SPOTLIGHT CAROUSEL -->
+  <section class="hero" id="heroSection">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-gradient"></div>
+
+    <!-- Glowing Ambient Lights -->
+    <div class="hero-ambient-flare flare-1"></div>
+    <div class="hero-ambient-flare flare-2"></div>
+
+    <div class="hero-content">
+      <!-- Left: Animated Details -->
+      <div class="hero-details" id="heroDetails">
+        <div class="hero-badge" id="heroBadge">
+          <span class="hero-pulse-dot"></span>
+          <span id="heroBadgeText">Spotlight Premiere</span>
+        </div>
+        <h1 class="hero-title" id="heroTitle">Oppenheimer</h1>
+        <div class="hero-meta" id="heroMeta">
+          <span class="rating-tag" id="heroRating">★ 8.9</span>
+          <span id="heroMetaText">English • Drama • 180 min</span>
+          <span class="tag" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 0.75rem; border: 1px solid rgba(56, 189, 248, 0.3);">IMAX 4K</span>
+        </div>
+        <p class="hero-desc" id="heroDesc">
+          Experience Christopher Nolan's epic biographical thriller in breathtaking IMAX.
+        </p>
+        <div class="hero-actions">
+          <button class="nav-btn btn-primary hero-main-btn" id="heroBookBtn">
+            <span>🎟️ Book Tickets</span>
+            <div class="btn-shine"></div>
+          </button>
+          <a href="#moviesSection" class="nav-btn btn-outline" style="padding: 0.8rem 1.6rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span>Explore All Movies</span> ↓
+          </a>
+        </div>
+
+        <!-- Slider Pagination Indicators (Timer Dots / Progress Bars) -->
+        <div class="hero-slider-nav">
+          <div class="hero-indicators" id="heroIndicators">
+            <!-- Dynamically populated with progress timer bars -->
+          </div>
+          <div class="hero-counter">
+            <span id="heroCurrentSlide">01</span> / <span id="heroTotalSlides">05</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Interactive 3D Poster Showcase with Floating Arrows & Next Queue -->
+      <div class="hero-showcase-wrapper">
+        <div class="hero-showcase-box">
+          <button class="hero-nav-arrow arrow-prev" onclick="prevHeroSlide()" title="Previous Movie" aria-label="Previous">❮</button>
+          <button class="hero-nav-arrow arrow-next" onclick="nextHeroSlide()" title="Next Movie" aria-label="Next">❯</button>
+
+          <div class="hero-poster-preview" id="heroPosterPreview">
+            <div class="poster-badge-top" id="heroPosterBadge">★ MUST WATCH</div>
+            <img id="heroPoster" src="" alt="Featured Poster" />
+            <div class="poster-reflection"></div>
+          </div>
+        </div>
+
+        <!-- Mini Preview Strip of Upcoming Movies -->
+        <div class="hero-queue-strip" id="heroQueueStrip" title="Click to view movie">
+          <!-- Dynamically populated mini thumbnails -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOW SHOWING SECTION -->
+  <main class="container" id="moviesSection">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Now Showing in Theaters</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.3rem;">Select a movie to pick showtimes and choose your preferred seats.</p>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar">
+        <button class="filter-chip active" data-category="ALL">All Movies</button>
+        <button class="filter-chip" data-category="ACTION">Action</button>
+        <button class="filter-chip" data-category="DRAMA">Drama</button>
+        <button class="filter-chip" data-category="ANIMATION">Animation</button>
+        <button class="filter-chip" data-category="THRILLER">Thriller</button>
+        <button class="filter-chip" data-category="COMEDY">Comedy</button>
+      </div>
+    </div>
+
+    <!-- MOVIES GRID -->
+    <div class="movies-grid" id="moviesGrid">
+      <!-- Injected dynamically by app.js -->
+    </div>
+  </main>
+
+  <!-- PREMIUM EXPERIENCES BANNER -->
+  <section class="container" id="experienceSection" style="padding-top: 0;">
+    <div style="background: linear-gradient(135deg, rgba(30,41,59,0.7), rgba(15,23,42,0.9)); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
+      <div>
+        <span class="tag" style="background: rgba(229,9,20,0.15); color: #ff6b6b; font-weight: 700;">PREMIUM CINEMA FORMATS</span>
+        <h3 style="font-size: 1.8rem; font-weight: 800; margin: 0.6rem 0 0.4rem;">IMAX with Laser & Dolby Atmos</h3>
+        <p style="color: var(--text-secondary); max-width: 550px; font-size: 0.95rem;">
+          Crystal clear images paired with next-generation precision sound. Featuring ergonomic luxury recliners and gourmet in-seat dining.
+        </p>
+      </div>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem 1.5rem; text-align: center;">
+          <div style="font-size: 1.4rem; font-weight: 800; color: #38bdf8;">IMAX</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Dual 4K Laser</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem 1.5rem; text-align: center;">
+          <div style="font-size: 1.4rem; font-weight: 800; color: #f59e0b;">DOLBY</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Atmos 360°</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem 1.5rem; text-align: center;">
+          <div style="font-size: 1.4rem; font-weight: 800; color: #10b981;">4DX</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Motion & FX</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING FLOW MODAL -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="bookingModalTitle">Book Tickets</h3>
+        <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- STEP 1: DATE & SHOWTIME PICKER -->
+        <div id="stepDateShow">
+          <label class="form-label" style="margin-bottom: 0.75rem;">1. Select Date</label>
+          <div class="date-selector" id="dateSelector">
+            <!-- Populated dynamically -->
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+            <label class="form-label" style="margin-bottom: 0;">2. Select Theater & Showtime</label>
+            <div class="theater-city-bar" id="theaterCityBar">
+              <button class="city-btn active" onclick="filterTheatersByCity('ALL', this)">All Cities</button>
+              <button class="city-btn" onclick="filterTheatersByCity('Vadodara', this)">📍 Vadodara</button>
+              <button class="city-btn" onclick="filterTheatersByCity('Mumbai', this)">📍 Mumbai</button>
+              <button class="city-btn" onclick="filterTheatersByCity('Indore', this)">📍 Indore</button>
+              <button class="city-btn" onclick="filterTheatersByCity('Bhopal', this)">📍 Bhopal</button>
+            </div>
+          </div>
+          <div id="theaterListContainer">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- STEP 2: SEAT MATRIX PICKER -->
+        <div id="stepSeats" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <button class="nav-btn btn-outline" style="padding: 0.35rem 0.8rem; font-size: 0.8rem;" onclick="backToShowSelection()">← Change Showtime</button>
+              <div id="seatShowInfo" style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-top: 0.5rem;"></div>
+            </div>
+          </div>
+
+          <!-- CINEMA SCREEN CURVE -->
+          <div class="cinema-screen-container">
+            <div class="cinema-screen"></div>
+            <div class="cinema-screen-text">All Eyes Towards Screen</div>
+          </div>
+
+          <!-- SEAT LEGEND -->
+          <div class="seat-legend">
+            <div class="legend-item">
+              <div class="legend-seat" style="background: var(--seat-avail);"></div>
+              <span>Classic (₹250)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-seat" style="background: var(--seat-avail); border: 1px solid var(--gold);"></div>
+              <span>VIP / Premium (₹450)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-seat" style="background: var(--seat-selected);"></div>
+              <span>Selected</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-seat" style="background: var(--seat-sold);"></div>
+              <span>Sold Out</span>
+            </div>
+          </div>
+
+          <!-- SEATS GRID -->
+          <div class="seats-grid-wrapper" id="seatGridWrapper">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- ORDER SUMMARY BAR -->
+        <div class="booking-summary-bar" id="bookingSummaryBar" style="display: none;">
+          <div class="summary-details">
+            <h4 id="summarySeatsDisplay">Seats: None selected</h4>
+            <div class="summary-seats">Includes all standard theater taxes & charges</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div class="summary-price">
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Total Amount</div>
+              <div class="summary-total" id="summaryTotalDisplay">₹0</div>
+            </div>
+            <button class="nav-btn btn-primary" id="proceedPayBtn" style="padding: 0.75rem 1.75rem; font-size: 1rem;" onclick="proceedToBooking()">
+              Proceed to Book
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIGITAL TICKET RECEIPT MODAL -->
+  <div class="modal-overlay" id="ticketModal">
+    <div class="modal-container" style="max-width: 560px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Booking Confirmation</h3>
+        <button class="modal-close" onclick="closeModal('ticketModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="ticket-card">
+          <div class="ticket-header">
+            <div>
+              <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent); font-weight: 700; letter-spacing: 1px;">E-TICKET CONFIRMED</div>
+              <div class="ticket-movie-title" id="ticketMovieName">Oppenheimer</div>
+            </div>
+            <div style="font-size: 2rem;">🎟️</div>
+          </div>
+
+          <div class="ticket-grid">
+            <div>
+              <div class="ticket-item-label">Theater</div>
+              <div class="ticket-item-val" id="ticketTheaterName">PVR Director's Cut</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);" id="ticketTheaterAddress">Ambience Mall, Vasant Kunj</div>
+            </div>
+            <div>
+              <div class="ticket-item-label">Date & Time</div>
+              <div class="ticket-item-val" id="ticketDate">2026-09-17 • 18:00</div>
+            </div>
+            <div>
+              <div class="ticket-item-label">Booked Seats</div>
+              <div class="ticket-item-val" id="ticketSeats" style="color: #38bdf8;">1A, 1B</div>
+            </div>
+            <div>
+              <div class="ticket-item-label">Total Paid</div>
+              <div class="ticket-item-val" id="ticketPrice" style="color: #10b981;">₹500</div>
+            </div>
+          </div>
+
+          <div class="ticket-barcode">
+            <div class="barcode-lines"></div>
+            <div class="barcode-text" id="ticketRefCode">CNX-982314</div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center;">
+          <button class="nav-btn btn-primary" onclick="window.print()">Print Ticket</button>
+          <button class="nav-btn btn-outline" onclick="closeModal('ticketModal')">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY BOOKINGS MODAL -->
+  <div class="modal-overlay" id="bookingsModal">
+    <div class="modal-container" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 class="modal-title">My Bookings</h3>
+        <button class="modal-close" onclick="closeModal('bookingsModal')">✕</button>
+      </div>
+      <div class="modal-body" id="myBookingsList">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- USER PROFILE / MY ACCOUNT MODAL -->
+  <div class="modal-overlay" id="accountModal">
+    <div class="modal-container" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="modal-title">My Account</h3>
+        <button class="modal-close" onclick="closeModal('accountModal')">✕</button>
+      </div>
+      <div class="modal-body" id="accountModalBody">
+        <!-- Injected dynamically by renderUserProfile() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH MODAL (LOGIN & SIGN UP) -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Account Access</h3>
+        <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-tabs">
+          <div class="form-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</div>
+          <div class="form-tab" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</div>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="loginFormContainer">
+          <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="loginEmail" class="form-control" required placeholder="name@domain.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" id="loginPassword" class="form-control" required placeholder="••••••••" />
+            </div>
+
+            <button type="submit" class="nav-btn btn-primary" style="width: 100%; padding: 0.8rem; margin-top: 0.5rem; font-size: 1rem;">
+              Sign In
+            </button>
+          </form>
+
+          <!-- QUICK DEMO HELPER -->
+          <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 0.85rem;">
+            <div style="font-weight: 700; margin-bottom: 0.5rem; color: var(--text-secondary);">⚡ 1-Click Demo Accounts:</div>
+            <div style="display: flex; gap: 0.6rem;">
+              <button class="nav-btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;" onclick="fillDemoUser('user')">User (Alex)</button>
+              <button class="nav-btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;" onclick="fillDemoUser('admin')">Admin</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div id="signupFormContainer" style="display: none;">
+          <form onsubmit="handleSignup(event)">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" id="signupName" class="form-control" required placeholder="John Doe" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="signupEmail" class="form-control" required placeholder="john@domain.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" id="signupPassword" class="form-control" required placeholder="Create strong password" />
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div class="form-group">
+                <label class="form-label">Age</label>
+                <input type="number" id="signupAge" class="form-control" required value="25" min="12" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Gender</label>
+                <select id="signupGender" class="form-control">
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                  <option value="OTHER">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mobile Number</label>
+              <input type="tel" id="signupMobile" class="form-control" required placeholder="9876543210" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">City / Address</label>
+              <input type="text" id="signupAddress" class="form-control" required placeholder="Mumbai, MH" />
+            </div>
+
+            <button type="submit" class="nav-btn btn-primary" style="width: 100%; padding: 0.8rem; margin-top: 0.5rem; font-size: 1rem;">
+              Create Account
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN MANAGEMENT MODAL (ADMIN ONLY) -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-container" style="max-width: 840px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <h3 class="modal-title">Admin Control Center</h3>
+          <span class="admin-security-badge">🔒 Admin Only</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('adminModal')">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-tabs">
+          <div class="form-tab active" id="tabAdminAdd" onclick="switchAdminTab('add')">➕ Add New Movie</div>
+          <div class="form-tab" id="tabAdminCatalog" onclick="switchAdminTab('catalog')">🎬 Manage Movies (<span id="adminMovieCount">0</span>)</div>
+          <div class="form-tab" id="tabAdminSchedule" onclick="switchAdminTab('schedule')">🗓️ Schedule Show</div>
+        </div>
+
+        <!-- TAB 1: ADD NEW MOVIE FORM -->
+        <div id="adminAddMovieContainer">
+          <form id="adminMovieForm" onsubmit="handleAdminAddMovie(event)">
+            <div style="display: flex; gap: 1.5rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+              <!-- POSTER PREVIEW BOX -->
+              <div>
+                <label class="form-label">Poster Preview</label>
+                <div class="poster-preview-box" id="adminPosterBox">
+                  <img id="adminPosterImg" src="" alt="Poster Preview" />
+                  <div class="poster-preview-placeholder" id="adminPosterPlaceholder">
+                    <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🖼️</div>
+                    Image preview appears here
+                  </div>
+                </div>
+              </div>
+
+              <!-- MOVIE DETAILS -->
+              <div style="flex: 1; min-width: 280px;">
+                <div class="form-group">
+                  <label class="form-label">Movie Title *</label>
+                  <input type="text" id="adminMovieName" class="form-control" required placeholder="e.g. Deadpool & Wolverine" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Upload Movie Poster (From Local Device)</label>
+                  <input type="file" id="adminPosterFile" accept="image/*, .png, .jpg, .jpeg, .webp, .jfif, .avif" onchange="handleAdminPosterSelect(event)" style="display: none;" />
+                  
+                  <div class="file-drop-zone" id="adminPosterDropZone" onclick="document.getElementById('adminPosterFile').click()">
+                    <div style="font-size: 1.8rem; margin-bottom: 0.25rem;">📁</div>
+                    <div style="font-weight: 700; font-size: 0.95rem; color: #fff;">Click to select file or drag & drop</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Supports JPG, PNG, WEBP, AVIF from your computer</div>
+                  </div>
+
+                  <div id="adminPosterFileInfo" class="file-info-badge" style="display: none;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; min-width: 0;">
+                      <span style="font-size: 1.2rem;">🖼️</span>
+                      <div style="min-width: 0; flex: 1;">
+                        <div id="adminPosterFileName" style="font-weight: 600; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff;">poster.jpg</div>
+                        <div id="adminPosterFileSize" style="font-size: 0.75rem; color: var(--text-muted);">0 KB</div>
+                      </div>
+                    </div>
+                    <button type="button" class="tag" style="cursor: pointer; background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);" onclick="removeSelectedPoster(event)">✕ Remove</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 2: CATEGORY & LANGUAGE -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Category / Genre *</label>
+                <select id="adminGenre" class="form-control" required>
+                  <option value="ACTION">Action</option>
+                  <option value="DRAMA">Drama</option>
+                  <option value="THRILLER">Thriller</option>
+                  <option value="COMEDY">Comedy</option>
+                  <option value="ANIMATION">Animation</option>
+                  <option value="ROMANTIC">Romantic</option>
+                  <option value="HISTORICAL">Historical</option>
+                  <option value="SPORTS">Sports</option>
+                  <option value="SOCIAL">Social</option>
+                  <option value="WAR">War</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Language *</label>
+                <select id="adminLanguage" class="form-control" required>
+                  <option value="ENGLISH">English</option>
+                  <option value="HINDI">Hindi</option>
+                  <option value="TELUGU">Telugu</option>
+                  <option value="TAMIL">Tamil</option>
+                  <option value="MARATHI">Marathi</option>
+                  <option value="KANNADA">Kannada</option>
+                  <option value="PUNJAB">Punjabi</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ROW 3: DURATION, RATING, RELEASE DATE -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Duration (minutes) *</label>
+                <input type="number" id="adminDuration" class="form-control" required min="30" max="360" value="135" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Rating (1.0 - 10.0) *</label>
+                <input type="number" id="adminRating" class="form-control" required step="0.1" min="1.0" max="10.0" value="8.5" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Release Date *</label>
+                <input type="date" id="adminReleaseDate" class="form-control" required />
+              </div>
+            </div>
+
+            <!-- OPTIONAL INITIAL SHOW ALLOCATION -->
+            <div style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius-md);">
+              <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: 600; font-size: 0.95rem;">
+                <input type="checkbox" id="adminAlsoScheduleShow" onchange="toggleAdminShowFields(this.checked)" />
+                <span>Also schedule an initial showtime for this movie</span>
+              </label>
+
+              <div id="adminShowFields" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem;">
+                  <div class="form-group">
+                    <label class="form-label">Theater Hall</label>
+                    <select id="adminShowTheater" class="form-control"></select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Show Date</label>
+                    <input type="date" id="adminShowDate" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Show Time</label>
+                    <input type="time" id="adminShowTime" class="form-control" value="18:00" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" id="adminAddMovieBtn" class="nav-btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; margin-top: 0.5rem;">
+              🚀 Publish Movie to Catalog
+            </button>
+          </form>
+        </div>
+
+        <!-- TAB 2: MANAGE MOVIES LIST -->
+        <div id="adminCatalogContainer" style="display: none;">
+          <div id="adminMoviesList" style="max-height: 480px; overflow-y: auto;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- TAB 3: SCHEDULE SHOWS -->
+        <div id="adminScheduleContainer" style="display: none;">
+          <form onsubmit="handleAdminScheduleShow(event)">
+            <div class="form-group">
+              <label class="form-label">Select Movie *</label>
+              <select id="adminSchedMovie" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Select Theater *</label>
+              <select id="adminSchedTheater" class="form-control" required></select>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Show Date *</label>
+                <input type="date" id="adminSchedDate" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Start Time *</label>
+                <input type="time" id="adminSchedTime" class="form-control" required value="19:30" />
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Classic Seat Price (₹)</label>
+                <input type="number" id="adminSchedClassicPrice" class="form-control" value="250" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Premium Seat Price (₹)</label>
+                <input type="number" id="adminSchedPremiumPrice" class="form-control" value="450" required />
+              </div>
+            </div>
+            <button type="submit" class="nav-btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; margin-top: 0.5rem;">
+              🗓️ Schedule Show & Allocate Seats
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- FOOTER -->
+  <footer style="border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 4rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 0.5rem; font-weight: 700; color: white;">
+      <img src="/images/bookigo-logo.png" alt="Bookigo Logo" style="height: 26px; vertical-align: middle;" />
+      <span>Bookigo Ticket Booking System</span>
+    </div>
+    <p>Powered by Spring Boot 3 & RESTful Architecture • Connected to Local MySQL</p>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
